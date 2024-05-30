@@ -11,17 +11,22 @@ class TypeValue(BaseException):
 
 
 class Population:
-    def __init__(self, collection: list|dict|set):
+
+    def __init__(self, collection:list|dict=None, columns:list=None, index:list=None) -> None:
         '''
         A set of pepole or things that we want to study one or more characteristics about them is called a population.
         ===
         input:
-        1. collection -> (list or dict or set)
-            collection form number, string and ... which are in to list or dict or set
+        1. collection -> (list or dict)
+            collection form number, string and ... which are in to list or dict
+        2. columns -> (list)
+            name of columns ...
+        3. index -> (list)
+            index for row. ...
         '''
-        if type(collection) == int or type(collection) == str:
-            raise TypeValue(f"you cant create pupulation from {type(collection)} object. you shold give list,dict,set or a collection for input to population class")
-        self._collection = collection
+        self._collection = collection if collection else None
+        self._columns = columns if columns else []
+        self._index = index if index else []
 
 
     def sample(self, n: int) -> list|dict|set:
@@ -49,6 +54,10 @@ class Population:
 
 
     def __repr__(self):
-        _str = ""
-        _str += f'{self._collection}'
-        return _str
+        str_ = ""
+        if self._collection is None or self._columns is None or self._index is None:
+            str_ += f"Empty Population\n"
+            str_ += f"Columns: {self._columns}\n"
+            str_ += f"Index : {self._index}\n"
+            return str_
+        return f'{self._collection}'
