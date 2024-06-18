@@ -3,7 +3,9 @@ from exception import (
     ValuePopulationSample,
 )
 import random
-
+import pandas as pd
+from collections import Counter
+import numpy as np
 
 
 class Population:
@@ -57,3 +59,17 @@ class Population:
             str_ += f"Index : {self._index}\n"
             return str_
         return f'{self._collection}'
+
+
+class Statics:
+    def __init__(self, collection:list) -> None:
+        self.collection = collection
+
+    def frequency_table(self):
+        tf = pd.DataFrame()
+        tf["xi"] = [x for x in set(self.collection)] 
+        tf["fi"] = [x for x in Counter(self.collection).values()] 
+        tf["vi"] = [round(x/len(self.collection), 2) for x in tf["fi"]]
+        tf["gi"] = np.cumsum(tf["fi"])
+        tf["si"] = [round(x/len(self.collection), 2) for x in tf["gi"]]
+        return tf
