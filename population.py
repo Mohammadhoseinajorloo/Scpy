@@ -1,4 +1,4 @@
-from exception import (
+from exceptions import (
     TypePopulationSample,
     ValuePopulationSample,
 )
