@@ -62,14 +62,48 @@ class Population:
 
 
 class Statics:
+
     def __init__(self, collection:list) -> None:
         self.collection = collection
 
-    def frequency_table(self):
+    def frequency_table(self, n_category:int=None):
+        
         tf = pd.DataFrame()
-        tf["xi"] = [x for x in set(self.collection)] 
-        tf["fi"] = [x for x in Counter(self.collection).values()] 
-        tf["vi"] = [round(x/len(self.collection), 2) for x in tf["fi"]]
-        tf["gi"] = np.cumsum(tf["fi"])
-        tf["si"] = [round(x/len(self.collection), 2) for x in tf["gi"]]
-        return tf
+
+        if n_category == None:
+            tf["xi"] = [x for x in set(self.collection)] 
+            tf["fi"] = [x for x in Counter(self.collection).values()] 
+            tf["vi"] = [round(x/len(self.collection), 2) for x in tf["fi"]]
+            tf["gi"] = np.cumsum(tf["fi"])
+            tf["si"] = [round(x/len(self.collection), 2) for x in tf["gi"]]
+            return tf
+        
+
+        else:
+            category_list = []
+            xi = []
+            fi = []
+    
+            d = 1
+            a = min(self.collection)-d/2
+            b = max(self.collection)-d/2
+            k = n_category
+            r = b - a
+            l = r/k
+    
+            for i in range(n):
+                category_list.append(f"{a}-{round(a+l,1)}")
+                xi.append(a+round(a+l,1)/len(self.collection))
+                fi.append(len([x for x in filter(lambda x:x>a and x<a+l,self.collection)]))
+                a=round(a+l,1)
+    
+    
+    
+            tf["category"] = category_list
+            tf["xi"] = xi
+            tf["fi"] = fi
+            tf["vi"] = [round(x/len(self.collection), 2) for x in tf["fi"]]
+            tf["gi"] = np.cumsum(tf["fi"])
+            tf["si"] = [x/len(self.collection) for x in tf["gi"]]
+        
+            return tf
