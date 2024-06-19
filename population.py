@@ -91,7 +91,7 @@ class Statics:
             r = b - a
             l = r/k
     
-            for i in range(n):
+            for i in range(n_category):
                 category_list.append(f"{a}-{round(a+l,1)}")
                 xi.append(a+round(a+l,1)/len(self.collection))
                 fi.append(len([x for x in filter(lambda x:x>a and x<a+l,self.collection)]))
